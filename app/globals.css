@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset para o header fixo */
+section[id] {
+  scroll-margin-top: 100px;
+}
