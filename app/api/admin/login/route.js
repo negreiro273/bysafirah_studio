@@ -5,9 +5,10 @@ export async function POST(request) {
   try {
     const body = await request.json()
     const { senha } = body
-
+    const senhaCorreta = process.env.SENHA_DE_ADMINISTRADOR || process.env.ADMIN_PASSWORD;
+    
     // Verificar se a senha está correta
-    if (senha === process.env.ADMIN_PASSWORD) {
+    if (senha === senhaCorreta) {
       const cookieStore = await cookies()
       
       // Criar cookie de sessão (válido por 7 dias)
