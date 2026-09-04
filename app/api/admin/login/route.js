@@ -6,32 +6,39 @@ export async function POST(request) {
     const body = await request.json()
     const { senha } = body
 
-    // Aceita tanto o nome em português (Vercel) quanto em inglês (local)
+    console.log('🔐 Tentativa de login recebida')
+    console.log('📋 Senha enviada pelo usuário:', senha)
+    console.log('📋 ADMIN_PASSWORD:', process.env.ADMIN_PASSWORD)
+    console.log('📋 SENHA_DE_ADMINISTRADOR:', process.env.SENHA_DE_ADMINISTRADOR)
+    
+    // Aceita ambos os nomes de variável
     const senhaCorreta = process.env.SENHA_DE_ADMINISTRADOR || process.env.ADMIN_PASSWORD
+    
+    console.log('📋 Senha correta configurada:', senhaCorreta)
+    console.log('📋 Senhas são iguais?', senha === senhaCorreta)
 
-    console.log("senhaCorreta-->",senhaCorreta)
-
-    // Verificar se a senha está correta
     if (senha === senhaCorreta) {
       const cookieStore = await cookies()
       
-      // Criar cookie de sessão (válido por 7 dias)
       cookieStore.set('admin_auth', 'true', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 7, // 7 dias
+        maxAge: 60 * 60 * 24 * 7,
         path: '/',
       })
 
+      console.log('✅ Login bem-sucedido!')
       return NextResponse.json({ sucesso: true })
     } else {
+      console.log('❌ Senha incorreta!')
       return NextResponse.json(
         { error: 'Senha incorreta' },
         { status: 401 }
       )
     }
   } catch (error) {
+    console.error(' Erro no login:', error)
     return NextResponse.json(
       { error: 'Erro ao fazer login' },
       { status: 500 }
