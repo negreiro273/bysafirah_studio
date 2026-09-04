@@ -1,5 +1,9 @@
 import "../app/globals.css";
+import { initDb } from "../lib/db.js"; 
 
+
+// Chama a inicialização do banco
+initDb().catch(console.error); 
 
 export const metadata = {
   title: "bySafirah - Studio",
