@@ -5,8 +5,12 @@ export async function POST(request) {
   try {
     const body = await request.json()
     const { senha } = body
-    const senhaCorreta = process.env.SENHA_DE_ADMINISTRADOR || process.env.ADMIN_PASSWORD;
-    
+
+    // Aceita tanto o nome em português (Vercel) quanto em inglês (local)
+    const senhaCorreta = process.env.SENHA_DE_ADMINISTRADOR || process.env.ADMIN_PASSWORD
+
+    console.log("senhaCorreta-->",senhaCorreta)
+
     // Verificar se a senha está correta
     if (senha === senhaCorreta) {
       const cookieStore = await cookies()
