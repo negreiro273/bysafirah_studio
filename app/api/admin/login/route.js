@@ -6,18 +6,7 @@ export async function POST(request) {
     const body = await request.json()
     const { senha } = body
 
-    console.log('🔐 Tentativa de login recebida')
-    console.log('📋 Senha enviada pelo usuário:', senha)
-    console.log('📋 ADMIN_PASSWORD:', process.env.ADMIN_PASSWORD)
-    console.log('📋 SENHA_DE_ADMINISTRADOR:', process.env.SENHA_DE_ADMINISTRADOR)
-    
-    // Aceita ambos os nomes de variável
-    const senhaCorreta = process.env.SENHA_DE_ADMINISTRADOR || process.env.ADMIN_PASSWORD
-    
-    console.log('📋 Senha correta configurada:', senhaCorreta)
-    console.log('📋 Senhas são iguais?', senha === senhaCorreta)
-
-    if (senha === senhaCorreta) {
+    if (senha === process.env.ADMIN_PASSWORD) {
       const cookieStore = await cookies()
       
       cookieStore.set('admin_auth', 'true', {
